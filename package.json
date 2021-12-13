@@ -1,16 +1,16 @@
 {
-  "name": "unix-seqsocket",
-  "version": "1.0.1",
+  "name": "unix-seqpacket",
+  "version": "1.0.2",
   "description": "Small library to allow nodejs to open a unix domain socket of sock_seqpacket format",
   "repository": {
     "type": "git",
-    "url": "https://github.com/richardah/unix-seqsocket"
+    "url": "https://github.com/richardah/unix-seqpacket"
   },
   "keywords": [
     "unix",
     "domain",
     "socket",
-    "seqsocket"
+    "seqpacket"
   ],
   "contributors": [
     "Richard Holland <richard.holland@starstone.co.nz>"
