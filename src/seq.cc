@@ -88,33 +88,10 @@ namespace unix_seqpacket
 #endif
     }
 
-    void _GetFdBytes(int fd, const FunctionCallbackInfo<Value>& args) 
+
+    void Available(const FunctionCallbackInfo<Value>& args)
     {
         Isolate* isolate = args.GetIsolate();
-#ifdef WIN
-        args.GetReturnValue().Set(Undefined(isolate));
-#else
-     
-        int bytes_available = 0;
-        ioctl(fd, FIONREAD, &bytes_available);
-
-        if (bytes_available > 0) {
-            Local<ArrayBuffer> abuf = ArrayBuffer::New(isolate, bytes_available);
-            char* data = (char*)(abuf->GetContents().Data());
-            read(fd, data, bytes_available);
-            args.GetReturnValue().Set(abuf);
-            return; 
-        } 
-
-        Local<ArrayBuffer> abuf = ArrayBuffer::New(isolate, 0);
-        args.GetReturnValue().Set(abuf);
-        return;
-#endif
-    }
-
-
-    void GetFdBytes(const FunctionCallbackInfo<Value>& args)
-    {
 #ifdef WIN
         args.GetReturnValue().Set(Undefined(isolate));
 #else
@@ -123,8 +100,10 @@ namespace unix_seqpacket
             return;
         }     
         int fd = (int)(args[0].As<Number>()->Value());
+        int bytes_available = 0;
+        ioctl(fd, FIONREAD, &bytes_available);
 
-        _GetFdBytes(fd, args);
+        args.GetReturnValue().Set(Integer::New(isolate, bytes_available));
         return;
 #endif        
     }    
@@ -133,7 +112,7 @@ namespace unix_seqpacket
     {
         NODE_SET_METHOD(exports, "open", Open);
         NODE_SET_METHOD(exports, "close", Close);
-        NODE_SET_METHOD(exports, "available", GetFdBytes);
+        NODE_SET_METHOD(exports, "available", Available);
     }
 
 }

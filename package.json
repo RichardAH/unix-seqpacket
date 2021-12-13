@@ -1,6 +1,6 @@
 {
   "name": "unix-seqsocket",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Small library to allow nodejs to open a unix domain socket of sock_seqpacket format",
   "repository": {
     "type": "git",
