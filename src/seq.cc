@@ -21,8 +21,12 @@ using namespace v8;
 
 #define THROW(x)\
 {\
-    isolate->ThrowException(Exception::TypeError(\
-        String::NewFromUtf8(isolate, x)));\
+    v8::Local<v8::String> result;\
+    v8::MaybeLocal<v8::String> temp = String::NewFromUtf8(isolate, x);\
+    if (temp.ToLocal(&result))\
+    isolate->ThrowException(Exception::TypeError(result));\
+    else\
+    isolate->ThrowException(Exception::TypeError({}));\
     return;\
 }
 
